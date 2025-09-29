@@ -5,9 +5,7 @@ urls = [
     "https://access.redhat.com/documentation/en-us/openshift_container_platform/4.14/html/images",
     "https://milvus.io/docs/overview.md"
 ]
-
 ##textclearning function
-
 def clean_text(text):
     """Clean and normalize text."""
     text = re.sub(r'\s+', ' ', text)
@@ -28,9 +26,7 @@ def load_website_data(urls):
         return []
 
 docs = load_website_data(urls)
-
 ### splitting text
-
 llm = ChatOllama(model=MODEL)
 embeddings = OllamaEmbeddings(model=EMBEDDING_MODEL)
 
@@ -46,5 +42,15 @@ splitted_documents = []
 for i, doc in enumerate(all_documents):
     chunks = text_splitter.split_documents([doc])
     for chunk in chunks:
-        chunk.metadata["source_url"] = doc.metadata.get("source", "Unknown")  # Preserve source
+        chunk.metadata["source_url"] = doc.metadata.get("source", "Unknown") 
         splitted_documents.append(chunk)
+##--------Embedding and Storing in Milvus
+test_embedding = embeddings.embed_query("Test sentence")
+
+vectorstore = Milvus.from_documents(
+    documents=splitted_documents,
+    embedding=embeddings,
+    connection_args={"uri": milvus_uri},
+    collection_name=COLLECTION_NAME,
+)
+
