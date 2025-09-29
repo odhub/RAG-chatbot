@@ -1,5 +1,5 @@
 # RAG-chatbot
-Build RAG chatbot with Ollama + Milvus db +langchain on Podman
+Build RAG chatbot with Ollama + Milvus db + langchain on Podman
 
 1. Download milvus standalone installation script using bellow commmand 
    curl -sfL https://raw.githubusercontent.com/milvus-io/milvus/master/scripts/standalone_embed.sh -o standalone_embed.sh
@@ -7,3 +7,7 @@ Build RAG chatbot with Ollama + Milvus db +langchain on Podman
    sed -i 's/docker/podman/g' standalone_embed.sh
 3. Running the script to start milvus container on Podman
 4. Running file milvus-config.py to create  Schema and Collections in Milvus
+5. Runing load-data.py,  this langchain script has several fucntions :
+    - Define a Text Cleaning Function
+    - Load Data from Website URLs
+    - Splitting Text for Better Retrieval
